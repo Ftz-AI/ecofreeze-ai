@@ -6,8 +6,8 @@ import joblib
 # page configuration and custom Theme (Dark & Sleek UI)
 st.set_page_config(page_title="EcoFreeze AI Optimizer", page_icon="🔋", layout="wide")
 
-# Custom UI Styling for a premium look
-st.markdown("""
+# Safe CSS Injecting Method to prevent Python 3.14 TypeError
+css_style = """
     <style>
     [data-testid="stAppViewContainer"] { background-color: #0e1117; color: #ffffff; }
     [data-testid="stSidebar"] { background-color: #161b22; }
@@ -20,7 +20,8 @@ st.markdown("""
     .warning-bg { background-color: #664d03; border: 1px solid #ffc107; padding: 15px; border-radius: 8px; }
     .critical-bg { background-color: #58151c; border: 1px solid #dc3545; padding: 15px; border-radius: 8px; }
     </style>
-""", unsafe_allowed_html=True)
+"""
+st.markdown(css_style, unsafe_allowed_html=True)
 
 # Loading the pre-trained models safely
 @st.cache_resource
@@ -43,7 +44,7 @@ ambient_temp = st.sidebar.slider("Ambient Temperature (°C)", 25.0, 45.0, 32.0, 
 solar_irradiance = st.sidebar.slider("Solar Irradiance (W/m²)", 0, 1000, 450, step=10)
 battery_health = st.sidebar.slider("Current Battery Health (%)", 50, 100, 85, step=1)
 
-# 💡 Expert Pitch Feature Added inside the sidebar
+# Expert Pitch Feature inside the sidebar
 st.sidebar.markdown("---")
 st.sidebar.info(
     "💡 **Core Architecture Note:**\n"
@@ -91,7 +92,6 @@ with col1:
     """, unsafe_allowed_html=True)
 
 with col2:
-    # changing the border color of the card based on the status type to visually indicate the severity of the situation 
     b_color = "#dc3545" if status_type == "CRITICAL" else ("#ffc107" if status_type == "WARNING" else "#2e7d32")
     st.markdown(f"""
         <div class="kpi-card" style="border-left: 5px solid {b_color};">
@@ -113,14 +113,11 @@ with col3:
 # simulation (Visual Prediction Trend)
 st.markdown("<br>### 📊 24-Hour Battery Depletion Projection", unsafe_allowed_html=True)
 
-# Generate a simulated time series so the user can visualize the trend
 hours = list(range(1, 25))
 simulated_soc = []
 current_soc = 100.0
 
 for h in hours:
-    # More realistic trend: Charge stays high or dips slowly during daytime (hours 1-12)
-    # and depletes faster at night (hours 13-24) based on the linear calculation
     current_drain = pred_discharge if h <= 12 else pred_discharge * 1.5
     current_soc = max(10.0, current_soc - current_drain)
     simulated_soc.append(current_soc)
