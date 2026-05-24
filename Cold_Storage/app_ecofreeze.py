@@ -3,25 +3,8 @@ import pandas as pd
 import numpy as np
 import joblib
 
-# page configuration and custom Theme (Dark & Sleek UI)
+# Page configuration
 st.set_page_config(page_title="EcoFreeze AI Optimizer", page_icon="🔋", layout="wide")
-
-# Safe CSS Injecting Method to prevent Python 3.14 TypeError
-css_style = """
-    <style>
-    [data-testid="stAppViewContainer"] { background-color: #0e1117; color: #ffffff; }
-    [data-testid="stSidebar"] { background-color: #161b22; }
-    .kpi-card {
-        background-color: #1f293d; padding: 20px; border-radius: 10px;
-        text-align: center; border-left: 5px solid #00f2fe;
-        box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-    }
-    .safe-bg { background-color: #1e4620; border: 1px solid #2e7d32; padding: 15px; border-radius: 8px; }
-    .warning-bg { background-color: #664d03; border: 1px solid #ffc107; padding: 15px; border-radius: 8px; }
-    .critical-bg { background-color: #58151c; border: 1px solid #dc3545; padding: 15px; border-radius: 8px; }
-    </style>
-"""
-st.markdown(css_style, unsafe_allowed_html=True)
 
 # Loading the pre-trained models safely
 @st.cache_resource
@@ -32,12 +15,12 @@ def load_models():
 
 model_discharge, model_temp = load_models()
 
-# Dashboard title and description
+# Dashboard Main Headers
 st.title("🔋 EcoFreeze AI: Off-Grid Battery & Thermal Optimizer")
 st.subheader("Smart Predictive Input Engine for Sub-Saharan Cold Storages")
 st.markdown("---")
 
-# sidebar inputs (The Interactive Controls)
+# Sidebar inputs (The Interactive Controls)
 st.sidebar.header("📡 Real-Time Environmental Inputs")
 
 ambient_temp = st.sidebar.slider("Ambient Temperature (°C)", 25.0, 45.0, 32.0, step=0.5)
@@ -52,68 +35,44 @@ st.sidebar.info(
     "to optimize battery cycles and prevent deep discharge in off-grid cold storages."
 )
 
-# model prediction based on user inputs
+# Model prediction based on user inputs
 input_data = pd.DataFrame([[ambient_temp, solar_irradiance, battery_health]], 
                           columns=['Ambient_Temperature', 'Solar_Irradiance', 'Battery_Health'])
 
 pred_discharge = max(0.0, float(model_discharge.predict(input_data)[0]))
 pred_cold_temp = float(model_temp.predict(input_data)[0])
 
-
 st.markdown("### 🧠 AI Guard: Live System Status & Action Logic")
 
-# Decision Logic:
+# Decision Logic using Streamlit's Native Alert Components
 if solar_irradiance < 200 and pred_discharge > 12:
     status_type = "CRITICAL"
-    status_class = "critical-bg"
-    status_msg = "🚨 **CRITICAL RISK:** Deep Discharge Alert! Solar generation is offline and battery drain is heavy. **Action:** Dimming cold storage cooling cycles immediately to preserve battery lifespan."
+    st.error("🚨 **CRITICAL RISK:** Deep Discharge Alert! Solar generation is offline and battery drain is heavy. **Action:** Dimming cold storage cooling cycles immediately to preserve battery lifespan.")
 elif solar_irradiance < 400 or pred_discharge > 8:
     status_type = "WARNING"
-    status_class = "warning-bg"
-    status_msg = "⚠️ **ECONOMY MODE:** Low solar radiation detected. Switching system to low-compute prediction state to optimize battery cycles."
+    st.warning("⚠️ **ECONOMY MODE:** Low solar radiation detected. Switching system to low-compute prediction state to optimize battery cycles.")
 else:
     status_type = "SAFE"
-    status_class = "safe-bg"
-    status_msg = "🟢 **SYSTEM SAFE:** High solar irradiance. Cold storage is running at peak performance. Battery is healthily buffering energy."
+    st.success("🟢 **SYSTEM SAFE:** High solar irradiance. Cold storage is running at peak performance. Battery is healthily buffering energy.")
 
-st.markdown(f'<div class="{status_class}">{status_msg}</div>', unsafe_allowed_html=True)
 st.markdown("<br>", unsafe_allowed_html=True)
 
-# KPI Cards (The visual status indicators)
+# KPI Cards using Streamlit's native st.metric component
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown(f"""
-        <div class="kpi-card">
-            <h3 style="color: #00f2fe; margin:0;">📉 Predicted Discharge</h3>
-            <h2 style="margin:10px 0;">{pred_discharge:.2f} % / hr</h2>
-            <p style="color: #aaa; font-size: 12px;">Battery Depletion Speed</p>
-        </div>
-    """, unsafe_allowed_html=True)
+    st.metric(label="📉 Predicted Discharge Rate", value=f"{pred_discharge:.2f} % / hr", delta="- Battery Depletion")
 
 with col2:
-    b_color = "#dc3545" if status_type == "CRITICAL" else ("#ffc107" if status_type == "WARNING" else "#2e7d32")
-    st.markdown(f"""
-        <div class="kpi-card" style="border-left: 5px solid {b_color};">
-            <h3 style="color: {b_color}; margin:0;">🔋 Dynamic Battery Status</h3>
-            <h2 style="margin:10px 0;">{status_type}</h2>
-            <p style="color: #aaa; font-size: 12px;">Deep Discharge Protection Mode</p>
-        </div>
-    """, unsafe_allowed_html=True)
+    st.metric(label="🔋 Dynamic Battery Status", value=status_type, delta="Protection Mode Active")
 
 with col3:
-    st.markdown(f"""
-        <div class="kpi-card">
-            <h3 style="color: #00f2fe; margin:0;">❄️ Cold Storage Temp</h3>
-            <h2 style="margin:10px 0;">{pred_cold_temp:.1f} °C</h2>
-            <p style="color: #aaa; font-size: 12px;">Internal Thermal Target</p>
-        </div>
-    """, unsafe_allowed_html=True)
+    st.metric(label="❄️ Cold Storage Internal Temp", value=f"{pred_cold_temp:.1f} °C", delta="Thermal Target")
 
-# simulation (Visual Prediction Trend)
+# Simulation (Visual Prediction Trend)
 st.markdown("<br>### 📊 24-Hour Battery Depletion Projection", unsafe_allowed_html=True)
 
-hours = list(range(1, 25))
+hours = list(range(1, 24))
 simulated_soc = []
 current_soc = 100.0
 
