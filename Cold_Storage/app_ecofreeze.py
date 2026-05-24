@@ -6,9 +6,11 @@ import joblib
 # page configuration and custom Theme (Dark & Sleek UI)
 st.set_page_config(page_title="EcoFreeze AI Optimizer", page_icon="🔋", layout="wide")
 
+# Custom UI Styling for a premium look
 st.markdown("""
     <style>
-    .main { background-color: #0e1117; color: #ffffff; }
+    [data-testid="stAppViewContainer"] { background-color: #0e1117; color: #ffffff; }
+    [data-testid="stSidebar"] { background-color: #161b22; }
     .kpi-card {
         background-color: #1f293d; padding: 20px; border-radius: 10px;
         text-align: center; border-left: 5px solid #00f2fe;
@@ -20,7 +22,7 @@ st.markdown("""
     </style>
 """, unsafe_allowed_html=True)
 
-# Loading the pre-trained models
+# Loading the pre-trained models safely
 @st.cache_resource
 def load_models():
     m_discharge = joblib.load('model_discharge.pkl')
@@ -41,6 +43,14 @@ ambient_temp = st.sidebar.slider("Ambient Temperature (°C)", 25.0, 45.0, 32.0, 
 solar_irradiance = st.sidebar.slider("Solar Irradiance (W/m²)", 0, 1000, 450, step=10)
 battery_health = st.sidebar.slider("Current Battery Health (%)", 50, 100, 85, step=1)
 
+# 💡 Expert Pitch Feature Added inside the sidebar
+st.sidebar.markdown("---")
+st.sidebar.info(
+    "💡 **Core Architecture Note:**\n"
+    "This low-compute linear model can act as a predictive input for Energy Management Systems "
+    "to optimize battery cycles and prevent deep discharge in off-grid cold storages."
+)
+
 # model prediction based on user inputs
 input_data = pd.DataFrame([[ambient_temp, solar_irradiance, battery_health]], 
                           columns=['Ambient_Temperature', 'Solar_Irradiance', 'Battery_Health'])
@@ -51,7 +61,7 @@ pred_cold_temp = float(model_temp.predict(input_data)[0])
 
 st.markdown("### 🧠 AI Guard: Live System Status & Action Logic")
 
-# Desicion Logic:
+# Decision Logic:
 if solar_irradiance < 200 and pred_discharge > 12:
     status_type = "CRITICAL"
     status_class = "critical-bg"
@@ -109,7 +119,8 @@ simulated_soc = []
 current_soc = 100.0
 
 for h in hours:
-    
+    # More realistic trend: Charge stays high or dips slowly during daytime (hours 1-12)
+    # and depletes faster at night (hours 13-24) based on the linear calculation
     current_drain = pred_discharge if h <= 12 else pred_discharge * 1.5
     current_soc = max(10.0, current_soc - current_drain)
     simulated_soc.append(current_soc)
