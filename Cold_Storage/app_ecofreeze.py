@@ -116,7 +116,7 @@ with col3:
 
 
 # --- 24-HOUR PROJECTION CHART ---
-st.markdown("<br>### 📊 24-Hour Battery Depletion Projection", unsafe_allow_html=True)
+st.markdown("<br> 📊 24-Hour Battery Depletion Projection", unsafe_allow_html=True)
 
 hours = list(range(1, 25))
 simulated_soc = []
