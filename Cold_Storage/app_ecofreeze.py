@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+import os
 
 # Page configuration
 st.set_page_config(page_title="EcoFreeze AI Optimizer", page_icon="🔋", layout="wide")
@@ -9,8 +10,16 @@ st.set_page_config(page_title="EcoFreeze AI Optimizer", page_icon="🔋", layout
 # Loading the pre-trained models safely
 @st.cache_resource
 def load_models():
-    m_discharge = joblib.load('model_discharge.pkl')
-    m_temp = joblib.load('model_temp.pkl')
+    
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    
+    discharge_path = os.path.join(base_dir, 'model_discharge.pkl')
+    temp_path = os.path.join(base_dir, 'model_temp.pkl')
+    
+
+    m_discharge = joblib.load(discharge_path)
+    m_temp = joblib.load(temp_path)
     return m_discharge, m_temp
 
 model_discharge, model_temp = load_models()
