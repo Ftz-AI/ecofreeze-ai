@@ -74,5 +74,5 @@ streamlit run app_ecofreeze.py
 
 I’m actively working on intersectional AI solutions for GreenTech, energy sustainability, and smart infrastructure. If you find this project interesting or want to discuss optimizations, let's connect!
 
-* **GitHub:** [@ecofreeze-ai]()
+* **GitHub:** [@ecofreeze-ai](https://github.com/Ftz-AI/ecofreeze-ai.git)
 * **Live App:** [Drop a comment or feedback on my interactive live setup!](https://www.linkedin.com/feed/update/urn:li:activity:7465078401826144256?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7465078401826144256%2C7465078789811752960%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287465078789811752960%2Curn%3Ali%3Aactivity%3A7465078401826144256%29)
