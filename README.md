@@ -1,4 +1,4 @@
-# ☀️ EcoFreeze AI: Off-Grid Battery & Thermal Optimizer
+# EcoFreeze AI: Off-Grid Battery & Thermal Optimizer
 
 ### **The Challenge**
 
@@ -10,15 +10,15 @@ In volatile climate zones and off-grid regions (such as sub-Saharan areas), sudd
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
-* **⚡ AI Guard Logic (Economy Mode):** Automatically simulates system throttling to `ECONOMY MODE` when low solar radiation is detected. This mitigates deep battery discharges while keeping internal cold storage temperatures stabilized at a safe $4.7^\circ\text{C}$.
-* **🔋 24-Hour Battery Depletion Projection:** Empowers energy engineers to visually audit battery drain trends and catch drops in State of Health (SOH) before reaching a critical infrastructure warning state.
-* **🔬 High-Fidelity Virtual Sandboxing:** Allows sustainability researchers to manipulate ambient temperatures and solar metrics to study energy management dynamics instantly—no expensive hardware setups required.
+* ** AI Guard Logic (Economy Mode):** Automatically simulates system throttling to `ECONOMY MODE` when low solar radiation is detected. This mitigates deep battery discharges while keeping internal cold storage temperatures stabilized at a safe $4.7^\circ\text{C}$.
+* ** 24-Hour Battery Depletion Projection:** Empowers energy engineers to visually audit battery drain trends and catch drops in State of Health (SOH) before reaching a critical infrastructure warning state.
+* ** High-Fidelity Virtual Sandboxing:** Allows sustainability researchers to manipulate ambient temperatures and solar metrics to study energy management dynamics instantly—no expensive hardware setups required.
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+##  Tech Stack & Architecture
 
 * **Core Logic & Engine:** Python, Pandas, NumPy
 * **Machine Learning:** Scikit-Learn (Predictive Modeling via `.pkl` pipelines)
@@ -38,13 +38,13 @@ In volatile climate zones and off-grid regions (such as sub-Saharan areas), sudd
 
 ---
 
-## 🧠 Behind the Code
+##  Behind the Code
 
 > **Development Insight:** Tackling the interdependent conditional logic, reactive status responses, and real-time cross-metric dashboard updates required extensive debugging sessions. Solving those complex edge cases to ensure the simulation behaves reliably under extreme environmental shifts was an incredibly rewarding engineering challenge.
 
 ---
 
-## 🚀 Getting Started Locally
+##  Getting Started Locally
 
 ### 1. Clone the Project
 
@@ -70,9 +70,9 @@ streamlit run app_ecofreeze.py
 
 ---
 
-## ✉️ Connect & Collaborate
+##  Connect & Collaborate
 
 I’m actively working on intersectional AI solutions for GreenTech, energy sustainability, and smart infrastructure. If you find this project interesting or want to discuss optimizations, let's connect!
 
-* **GitHub:** [@ecofreeze-ai](https://www.google.com/search?q=https%3A%2F%2Fgithub.com%2Fecofreeze-ai)
-* **Live App:** [Drop a comment or feedback on my interactive live setup!](https://www.google.com/search?q=%23)
+* **GitHub:** [@ecofreeze-ai]()
+* **Live App:** [Drop a comment or feedback on my interactive live setup!](https://www.linkedin.com/feed/update/urn:li:activity:7465078401826144256?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7465078401826144256%2C7465078789811752960%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287465078789811752960%2Curn%3Ali%3Aactivity%3A7465078401826144256%29)
